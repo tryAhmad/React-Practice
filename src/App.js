@@ -26,8 +26,8 @@ export default function App() {
   );
 }
 
-console.log(<DifferentContent test={23} />);  
-console.log(DifferentContent({ test: 23 }));
+// console.log(<DifferentContent test={23} />);  
+// console.log(DifferentContent({ test: 23 }));
 
 function Tabbed({ content }) {
   const [activeTab, setActiveTab] = useState(0);
@@ -42,12 +42,12 @@ function Tabbed({ content }) {
       </div>
 
       {activeTab <= 2 ? (
-        <TabContent item={content.at(activeTab)} />
+        <TabContent item={content.at(activeTab)} key={content.at(activeTab).summary} />
       ) : (
         <DifferentContent />
       )}
 
-      {TabContent({item: content.at(0)})}
+      {/* {TabContent({item: content.at(0)})} */}
     </div>
   );
 }
@@ -68,8 +68,23 @@ function TabContent({ item }) {
   const [likes, setLikes] = useState(0);
 
   function handleInc() {
-    setLikes(likes + 1);
+    setLikes((likes) => likes + 1);
   }
+
+  function handletripleInc() {
+    // setLikes(likes + 3);
+    handleInc();
+    handleInc();
+    handleInc();
+  }
+
+  function handleUndo() {
+    setLikes(0);
+    setShowDetails(true);
+    console.log(likes);
+  }
+
+  console.log("TabContent render");
 
   return (
     <div className="tab-content">
@@ -84,12 +99,12 @@ function TabContent({ item }) {
         <div className="hearts-counter">
           <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={handletripleInc} >+++</button>
         </div>
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
+        <button onClick={handleUndo} >Undo</button>
         <button>Undo in 2s</button>
       </div>
     </div>
